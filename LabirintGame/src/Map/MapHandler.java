@@ -33,6 +33,11 @@ public class MapHandler {
     public void setTile(String ch, int i, int j){
         map[i][j] = ch;
     }
+
+    public int getN() {
+        return n;
+    }
+
     public void printMap(){
 
         for(int i = 0;i < n; i++){

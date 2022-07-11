@@ -35,6 +35,7 @@ public class Game {
 
         //player stuff
         spawnPlayer();
+        loadCurrMap();
         currentMap.printMap();
     }
 
@@ -100,6 +101,7 @@ public class Game {
                 break;
         }
         setPlayerPos(player.getPosx(), player.getPosy());
+        loadCurrMap();
         currentMap.printMap();
     }
 
@@ -186,5 +188,27 @@ public class Game {
                 player = new Player(8,8);
                 currentMap.setTile(player.playerIcon, 8,8);
         }
+    }
+
+    public void loadCurrMap(){
+
+        int x = player.getPosx();
+        int y = player.getPosy();
+
+        for(int i = 0; i < currentMap.getN(); i++){
+            for(int j = 0; j < currentMap.getN(); j++){
+                if((x-1 == i && y == j) || (x + 1 == i && y == j) || (x == i && y-1 == j) || (x == i && y+1==j) || (x-1 == i && y + 1==j)
+                || (x+1==i && y-1==j) || (x+1==i && y+1==j) || (x-1 == i && y - 1 ==j)){
+                    currentMap.setTile(gameMap.getTile(i,j),i,j);
+                }
+                else {
+                    currentMap.setTile("X",i,j);
+                }
+                if((x == i && y == j)){
+                    currentMap.setTile(player.playerIcon,i,j);
+                }
+            }
+        }
+
     }
 }
