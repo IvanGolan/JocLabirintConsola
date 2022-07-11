@@ -9,6 +9,8 @@ public class Game {
     MapHandler currentMap;
     MapHandler gameMap;
     Player player;
+
+    HashMap<Integer,Integer> prevTiles = new HashMap<Integer, Integer>();
     private int startX;
     private int startY;
     private final int up = 5;
@@ -18,6 +20,7 @@ public class Game {
 
     Game(){
         //starting game
+        System.out.println("<----Maze Game---->");
         System.out.println("Starting game...");
         System.out.println("Game controls:");
         System.out.println("w-->Move Up");
@@ -31,7 +34,7 @@ public class Game {
         gameMap = new MapHandler();
         currentMap = new MapHandler();
         gameMap.loadMap("/Map/Map.map");
-        currentMap.loadMap("/Map/Map.map");
+        initCurrMap();
 
         //player stuff
         spawnPlayer();
@@ -92,6 +95,9 @@ public class Game {
                     System.out.println("You Won");
                     System.out.println("Number of moves made is: " + player.getNrMoves());
                     System.out.println("Number of treasures collected is: " + player.getNrTreasure());
+                    if(player.getNrTreasure() == 5){
+                        System.out.println("Congratulations,you got the max amount of treasures!!");
+                    }
                     System.exit(1);
                 }
                 break;
@@ -161,10 +167,32 @@ public class Game {
                 System.out.println("You're currently on an empty tile");
                 break;
             case "D":
-                System.out.println("You're currently on a door,press o if it's not the one you spawned in");
+                System.out.println("You're currently on a DOOR,\n" +
+                        "            __________\n" +
+                        "           |  __  __  |\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |__||__| |\n" +
+                        "           |  __  __()|\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |  ||  | |\n" +
+                        "           | |__||__| |\n" +
+                        "           |__________|\n " +
+                        "press o if it's not the one you spawned in");
                 break;
             case "C":
-                System.out.println("You're currently on a treasure, press o to claim it");
+                System.out.println("You're currently on a TREASURE,\n" +
+                        "         __________\n" +
+                        "        /\\____;;___\\\n" +
+                        "       | /         /\n" +
+                        "       `. ())oo() .\n" +
+                        "        |\\(%()*^^()^\\\n" +
+                        "       %| |-%-------|\n" +
+                        "      % \\ | %  ))   |\n" +
+                        "      %  \\|%________|\n" +
+                        "      press o to claim it");
                 break;
         }
     }
@@ -198,11 +226,8 @@ public class Game {
         for(int i = 0; i < currentMap.getN(); i++){
             for(int j = 0; j < currentMap.getN(); j++){
                 if((x-1 == i && y == j) || (x + 1 == i && y == j) || (x == i && y-1 == j) || (x == i && y+1==j) || (x-1 == i && y + 1==j)
-                || (x+1==i && y-1==j) || (x+1==i && y+1==j) || (x-1 == i && y - 1 ==j)){
+                        || (x+1==i && y-1==j) || (x+1==i && y+1==j) || (x-1 == i && y - 1 ==j)){
                     currentMap.setTile(gameMap.getTile(i,j),i,j);
-                }
-                else {
-                    currentMap.setTile("X",i,j);
                 }
                 if((x == i && y == j)){
                     currentMap.setTile(player.playerIcon,i,j);
@@ -211,4 +236,13 @@ public class Game {
         }
 
     }
+
+    public void initCurrMap(){
+        for(int i = 0;i < currentMap.getN(); i++){
+            for(int j = 0;j < currentMap.getN(); j++){
+                currentMap.setTile("X",i,j);
+            }
+        }
+    }
+
 }
